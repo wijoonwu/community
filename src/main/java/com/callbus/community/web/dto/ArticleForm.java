@@ -19,7 +19,4 @@ public class ArticleForm {
         return new Article(member, title, content);
     }
 
-    public void setMember(Member member){
-        this.member = member;
-    }
 }
