@@ -44,10 +44,15 @@ public class Article {
     @JoinColumn(name = "REPLY_ID")
     private List<Reply> reply;
 
-    @OneToMany
-    @JoinColumn(name = "THUMBS_UP_ID")
-    private List<ThumbsUp> thumbsUp;
+//    @OneToMany
+//    @JoinColumn(name = "THUMBS_UP_ID")
+//    private List<ThumbsUp> thumbsUp;
 
+    private int thumbsUps;
+
+    public void setThumbsUps(int i){
+        this.thumbsUps = i;
+    }
     public Article(String writer, String title, String content) {
         this.writer = writer;
         this.title = title;

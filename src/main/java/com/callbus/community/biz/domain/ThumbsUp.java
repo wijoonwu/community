@@ -1,5 +1,6 @@
 package com.callbus.community.biz.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,12 +23,19 @@ public class ThumbsUp {
     @ManyToOne
     private Article article;
 
-    public void setMember(Member member){
+    @Column(nullable = false)
+    private boolean status;
+
+    public ThumbsUp(Member member, Article article){
         this.member = member;
-    }
-    public void setArticle(Article article){
         this.article = article;
+        this.status = true;
+        article.setThumbsUps(article.getThumbsUps() + 1);
     }
 
+    public void ThumbsDown(){
+        this.status = false;
+        article.setThumbsUps(article.getThumbsUps() - 1);
+    }
 
 }

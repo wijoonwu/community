@@ -11,6 +11,7 @@ import com.callbus.community.biz.repository.ThumbsUpRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -21,15 +22,23 @@ public class ThumbsUpService {
     private final ArticleRepository articleRepository;
 
     @Transactional
-    public ThumbsUp thumbsUp(long id, String accountId) {
+    public String thumbsUp(long id, String accountId) {
         Article article = articleRepository.findById(id).orElseThrow(
             () -> new CustomException(ErrorCode.ARTICLE_NOT_FOUND)
         );
         Member member = memberRepository.findByAccountId(accountId);
-        ThumbsUp thumbsUp = new ThumbsUp();
-        thumbsUp.setArticle(article);
-        thumbsUp.setMember(member);
-        thumbsUpRepository.save(thumbsUp);
-        return thumbsUp;
+
+        ThumbsUp target = thumbsUpRepository.findByArticleAndMember(article, member);
+
+        if(ObjectUtils.isEmpty(target)){
+            ThumbsUp thumbsUp = new ThumbsUp(member, article);
+            thumbsUpRepository.save(thumbsUp);
+            return "좋아요를 눌렀습니다.";
+        } else {
+            target.ThumbsDown();
+            thumbsUpRepository.delete(target);
+            return "좋아요가 취소되었습니다.";
+        }
+
     }
 }
