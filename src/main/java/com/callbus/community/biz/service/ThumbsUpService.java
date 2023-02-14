@@ -32,6 +32,9 @@ public class ThumbsUpService {
             () -> new CustomException(ErrorCode.ARTICLE_NOT_FOUND)
         );
         Member member = memberRepository.findByAccountId(accountId);
+        if(ObjectUtils.isEmpty(member)){
+            throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
+        }
         ThumbsUp target = thumbsUpRepository.findByArticleAndMember(article, member);
 
         if(ObjectUtils.isEmpty(target)){
