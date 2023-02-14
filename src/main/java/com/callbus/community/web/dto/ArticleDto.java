@@ -46,8 +46,4 @@ public class ArticleDto {
         }
         return false;
     }
-
-    public boolean getThumbsUpStatus() {
-        return thumbsUpStatus;
-    }
 }
