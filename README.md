@@ -169,8 +169,8 @@ Postman 혹은 Talend API 등의 프로그램을 이용해서 아래와 같이 �
 
 ### 게시글 좋아요 조회
 
-- Method: POST
-- Url: http://localhost:8080/article/new
+- Method: GET
+- Url: http://localhost:8080/article/thumbsUps
 
 #### Header
 
