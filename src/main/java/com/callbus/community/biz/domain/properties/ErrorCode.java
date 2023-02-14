@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ErrorCode {
 
-    MEMBER_NOT_FOUND(401,"외부 사용자는 글을 작성할 수 없습니다."),
+    MEMBER_NOT_FOUND(401,"외부 사용자는 이용할 수 없는 서비스입니다."),
     INTERNAL_SERVER_ERROR(500, "서버 에러가 발생했습니다. 고객센터로 문의 바랍니다."),
     ARTICLE_NOT_FOUND(404, "게시글을 찾을 수 없습니다." ),
     THE_WRONG_APPROACH(401, "잘못된 접근입니다." );
