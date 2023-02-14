@@ -8,5 +8,5 @@ import lombok.Getter;
 public class ErrorDto {
 
     private final int status;
-    private final String msg;
+    private final String message;
 }
