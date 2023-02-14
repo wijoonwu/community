@@ -73,8 +73,8 @@ gradlew bootRun
         "content": "하하하하하",
         "thumbsUpCount": 0,
         "thumbsUpStatus": false,
-        "createdDate": "2023/02/15 03:53",
-        "modifiedDate": "2023/02/15 03:53"
+        "createdDate": "2023-02-15 03:53",
+        "modifiedDate": "2023-02-15 03:53"
     }
 }
 ```
@@ -158,8 +158,8 @@ gradlew bootRun
         "content": "하하하하하",
         "thumbsUpCount": 0,
         "thumbsUpStatus": false,
-        "createdDate": "2023/02/15 03:53",
-        "modifiedDate": "2023/02/15 03:53"
+        "createdDate": "2023-02-15 03:53",
+        "modifiedDate": "2023-02-15 03:53"
     }
 ]
 ```
@@ -238,7 +238,7 @@ gradlew bootRun
         "thumbsUpCount": 1,
         "thumbsUpStatus": true,
         "createdDate": "2023-02-15 03:53",
-        "modifiedDate": "2023/02/15 03:54"
+        "modifiedDate": "2023-02-15 03:54"
     },
     {
         "id": 2,
@@ -248,7 +248,7 @@ gradlew bootRun
         "thumbsUpCount": 1,
         "thumbsUpStatus": true,
         "createdDate": "2023-02-15 03:53",
-        "modifiedDate": "2023/02/15 03:54"
+        "modifiedDate": "2023-02-15 03:54"
     }
 ]
 ```
@@ -286,7 +286,7 @@ gradlew bootRun
         "thumbsUpCount": 1,
         "thumbsUpStatus": true,
         "createdDate": "2023-02-15 03:53",
-        "modifiedDate": "2023/02/15 03:54"
+        "modifiedDate": "2023-02-15 03:54"
     }
 }
 ```
