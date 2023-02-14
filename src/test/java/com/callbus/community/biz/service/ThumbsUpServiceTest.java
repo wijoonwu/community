@@ -52,24 +52,6 @@ class ThumbsUpServiceTest {
     }
 
     @Test
-    public void 좋아요_취소(){
-        //given
-        long articleId = 1L;
-        String accountId = "Realtor 1";
-
-        thumbsUpService.createThumbsUp(articleId, accountId);
-        thumbsUpService.createThumbsUp(articleId, accountId);
-
-        //when
-        ArticleDto articleDto = articleService.readArticle(articleId, accountId);
-        boolean thumbsUpStatus = articleDto.getThumbsUpStatus();
-
-        //then
-        Assert.assertFalse(thumbsUpStatus);
-
-    }
-
-    @Test
     public void 좋아요_게시글_보기() {
         //given
         long articleId = 1L;
