@@ -19,13 +19,13 @@ public class ArticleDto {
     private String content;
     private int thumbsUpCount;
     private boolean thumbsUpStatus;
-    private LocalDateTime created;
-    private LocalDateTime modified;
+    private String createdDate;
+    private String modifiedDate;
 
 
     public ArticleDto(Article article, String accountId) {
-        this.created = article.getCreated();
-        this.modified = article.getModified();
+        this.createdDate = article.getCreatedDate();
+        this.modifiedDate = article.getModifiedDate();
         this.id = article.getId();
         this.writer = article.getMember().getNickname() + "(" + article.getMember().getAccountType().getDescription() + ")";
         this.title = article.getTitle();
