@@ -125,14 +125,15 @@ class ArticleServiceTest {
         //given
         long articleId = 1L;
         String accountId = "Realtor 1";
+        int beforeDelete = articleRepository.findAll().size();
 
         //when
         articleService.deleteArticle(articleId, accountId);
 
         //then
         Optional<Article> article = articleRepository.findById(articleId);
-        Assert.assertNotNull(article);
         article.ifPresent(value -> Assert.assertNotNull(value.getDeletedDate()));
+        Assert.assertNotEquals(beforeDelete, articleRepository.findAll().size());
     }
 
     @Test
