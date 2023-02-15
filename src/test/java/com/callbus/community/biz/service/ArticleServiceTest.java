@@ -5,7 +5,8 @@ import com.callbus.community.biz.exception.CustomException;
 import com.callbus.community.biz.repository.ArticleRepository;
 import com.callbus.community.biz.repository.MemberRepository;
 import com.callbus.community.web.dto.ArticleDto;
-import com.callbus.community.web.dto.ArticleForm;
+import com.callbus.community.web.dto.ArticleDto.ArticleForm;
+import com.callbus.community.web.dto.ArticleDto.ResArticle;
 import java.util.List;
 import java.util.Optional;
 import org.junit.Assert;
@@ -40,7 +41,7 @@ class ArticleServiceTest {
         String accountId = "Realtor 1";
 
         //when
-        ArticleDto articleDto = articleService.createArticle(articleForm, accountId);
+        ResArticle articleDto = articleService.createArticle(articleForm, accountId);
 
         //then
         Optional<Article> article = articleRepository.findById(articleDto.getId());
@@ -81,7 +82,7 @@ class ArticleServiceTest {
     @Test
     public void 게시글_전체_조회() {
         //when
-        List<ArticleDto> articleDtoList = articleService.readArticles(null);
+        List<ResArticle> articleDtoList = articleService.readArticles(null);
 
         //then
         Assert.assertEquals(2, articleDtoList.size());

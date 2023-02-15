@@ -4,8 +4,8 @@ import com.callbus.community.biz.domain.properties.Message;
 import com.callbus.community.biz.domain.properties.StatusEnum;
 import com.callbus.community.biz.service.ArticleService;
 import com.callbus.community.biz.service.ThumbsUpService;
-import com.callbus.community.web.dto.ArticleDto;
-import com.callbus.community.web.dto.ArticleForm;
+import com.callbus.community.web.dto.ArticleDto.ArticleForm;
+import com.callbus.community.web.dto.ArticleDto.ResArticle;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,7 @@ public class ArticleController {
     @PostMapping("/new")
     public ResponseEntity<Message> createArticle(@RequestBody ArticleForm articleForm,
         @RequestHeader(required = false, value = "Authentication") String accountId) {
-        ArticleDto articleDto = articleService.createArticle(articleForm, accountId);
+        ResArticle articleDto = articleService.createArticle(articleForm, accountId);
         HttpHeaders headers = getHttpHeaders();
         Message message = getMessage();
         message.setMessage("게시글 등록에 성공했습니다.");
@@ -43,24 +43,24 @@ public class ArticleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ArticleDto> readArticle(@PathVariable("id") long id,
+    public ResponseEntity<Object> readArticle(@PathVariable("id") long id,
     @RequestHeader(required = false, value = "Authentication") String accountId) {
-        ArticleDto articleDto = articleService.readArticle(id, accountId);
+        Object articleDto = articleService.readArticle(id, accountId);
         return new ResponseEntity<>(articleDto, HttpStatus.OK);
     }
     
     @GetMapping("/list")
-    public ResponseEntity<List<ArticleDto>> readArticles(
+    public ResponseEntity<List<ResArticle>> readArticles(
         @RequestHeader(required = false, value = "Authentication") String accountId){
-        List<ArticleDto> articleDtoList = articleService.readArticles(accountId);
+        List<ResArticle> articleDtoList = articleService.readArticles(accountId);
         return new ResponseEntity<>(articleDtoList, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/update")
+    @PutMapping("/{id}")
     public ResponseEntity<Message> updateArticle(@PathVariable("id") long articleId,
         @RequestBody ArticleForm articleForm,
         @RequestHeader(required = false, value = "Authentication") String accountId){
-        ArticleDto articleDto = articleService.updateArticle(articleId, articleForm, accountId);
+        ResArticle articleDto = articleService.updateArticle(articleId, articleForm, accountId);
         Message message = getMessage();
         HttpHeaders headers = getHttpHeaders();
         message.setMessage("게시글을 수정 했습니다.");
@@ -68,7 +68,7 @@ public class ArticleController {
         return new ResponseEntity<>(message, headers, HttpStatus.OK);
     }
     
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Message> deleteArticle(@PathVariable("id") long articleId,
         @RequestHeader(required = false, value = "Authentication") String accountId){
         Message message = getMessage();
@@ -87,8 +87,8 @@ public class ArticleController {
     }
 
     @GetMapping("/thumbsUps")
-    public ResponseEntity<List<ArticleDto>> readThumbsUps(@RequestHeader(required = false, value = "Authentication") String accountId){
-        List<ArticleDto> articleDtoList = thumbsUpService.readThumbsUpList(accountId);
+    public ResponseEntity<List<ResArticle>> readThumbsUps(@RequestHeader(required = false, value = "Authentication") String accountId){
+        List<ResArticle> articleDtoList = thumbsUpService.readThumbsUpList(accountId);
         return new ResponseEntity<>(articleDtoList, HttpStatus.OK);
     }
 

@@ -6,6 +6,7 @@ import com.callbus.community.biz.repository.ArticleRepository;
 import com.callbus.community.biz.repository.MemberRepository;
 import com.callbus.community.biz.repository.ThumbsUpRepository;
 import com.callbus.community.web.dto.ArticleDto;
+import com.callbus.community.web.dto.ArticleDto.ResArticle;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,7 @@ class ThumbsUpServiceTest {
         thumbsUpService.createThumbsUp(articleId, accountId);
 
         //when
-        ArticleDto articleDto = articleService.readArticle(articleId, accountId);
+        ResArticle articleDto = articleService.readArticle(articleId, accountId);
         boolean thumbsUpStatus = articleDto.getThumbsUpStatus();
 
         //then
@@ -59,7 +60,7 @@ class ThumbsUpServiceTest {
         thumbsUpService.createThumbsUp(articleId, accountId);
 
         //when
-        List<ArticleDto> articleDtoList = thumbsUpService.readThumbsUpList(accountId);
+        List<ResArticle> articleDtoList = thumbsUpService.readThumbsUpList(accountId);
 
         //then
         Assert.assertEquals(1, articleDtoList.size());
