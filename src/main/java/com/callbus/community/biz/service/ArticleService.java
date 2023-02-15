@@ -37,8 +37,8 @@ public class ArticleService {
     }
 
     @Transactional(readOnly = true)
-    public Object readArticle(long id, String accountId) {
-        Article article = articleRepository.findById(id).orElseThrow(
+    public Object readArticle(long articleId, String accountId) {
+        Article article = articleRepository.findById(articleId).orElseThrow(
         () -> new CustomException(ErrorCode.ARTICLE_NOT_FOUND));
         if(article.getDeletedDate() == null) {
             return new ResArticle(article, accountId);
