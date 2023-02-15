@@ -10,14 +10,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@SQLDelete(sql = "UPDATE article set deleted_date = FORMATDATETIME(now(),'yyyy-MM-dd hh:mm') where id = ?")
 public class Article extends BaseTime{
 
     @Id
@@ -62,4 +67,5 @@ public class Article extends BaseTime{
     public void setThumbsUp(ThumbsUp thumbsUp) {
         this.thumbsUp.add(thumbsUp);
     }
+
 }

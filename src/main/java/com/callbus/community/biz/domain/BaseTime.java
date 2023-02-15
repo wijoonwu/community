@@ -25,6 +25,9 @@ public class BaseTime {
     @Column(name = "modified_date")
     private String modifiedDate;
 
+    @Column(name = "deleted_date")
+    private String deletedDate;
+
     @PrePersist
     public void onPrePersist(){
         this.createdDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
@@ -35,4 +38,5 @@ public class BaseTime {
     public void onPreUpdate(){
         this.modifiedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
+
 }
