@@ -39,7 +39,7 @@ public class ArticleController {
         Message message = getMessage();
         message.setMessage("게시글 등록에 성공했습니다.");
         message.setData(articleDto);
-        return new ResponseEntity<>(message, headers, HttpStatus.OK);
+        return new ResponseEntity<>(message, headers, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
