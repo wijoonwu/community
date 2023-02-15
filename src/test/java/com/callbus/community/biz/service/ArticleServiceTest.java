@@ -4,12 +4,12 @@ import com.callbus.community.biz.domain.Article;
 import com.callbus.community.biz.exception.CustomException;
 import com.callbus.community.biz.repository.ArticleRepository;
 import com.callbus.community.biz.repository.MemberRepository;
-import com.callbus.community.web.dto.ArticleDto;
 import com.callbus.community.web.dto.ArticleDto.ArticleForm;
 import com.callbus.community.web.dto.ArticleDto.ResArticle;
 import java.util.List;
 import java.util.Optional;
 import org.junit.Assert;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,28 +32,37 @@ class ArticleServiceTest {
     ArticleRepository articleRepository;
 
     @Test
-    public void 게시글_작성() {
+    @DisplayName("게시글 작성")
+     void createArticle() {
         //given
-        ArticleForm articleForm = new ArticleForm();
-        articleForm.setTitle("안녕하세요.");
-        articleForm.setContent("반갑습니다");
-
+        String title = "안녕하세요.";
+        String content = "반갑습니다";
         String accountId = "Realtor 1";
+
+        ArticleForm articleForm = new ArticleForm();
+        articleForm.setTitle(title);
+        articleForm.setContent(content);
 
         //when
         ResArticle articleDto = articleService.createArticle(articleForm, accountId);
+        Optional<Article> article = articleRepository.findById(articleDto.getId());
 
         //then
-        Optional<Article> article = articleRepository.findById(articleDto.getId());
         Assert.assertNotNull(article);
+        Assert.assertEquals(title , article.get().getTitle());
+        Assert.assertEquals(content, article.get().getContent());
     }
 
     @Test
-    public void 외부인_게시글_작성_불가(){
+    @DisplayName("외부인 게시글 작성 불가")
+    void unableToPost(){
         //given
+        String title = "안녕하세요.";
+        String content = "반갑습니다";
+
         ArticleForm articleForm = new ArticleForm();
-        articleForm.setTitle("안녕하세요.");
-        articleForm.setContent("반갑습니다");
+        articleForm.setTitle(title);
+        articleForm.setContent(content);
 
         //then
         Assert.assertThrows(CustomException.class,
@@ -61,55 +70,60 @@ class ArticleServiceTest {
                 //when
                 articleService.createArticle(articleForm, null);
             });
-
     }
 
     @Test
-    public void 게시글_단건_조회() {
+    @DisplayName("게시글 단건 조회")
+    void readArticle() {
         //given
-        long id = 1;
+        long articleId = 1L;
         String accountId = "Realtor 1";
-        Optional<Article> article = articleRepository.findById(id);
-        String title = article.get().getTitle();
 
         //when
-        articleService.readArticle(1, accountId);
+        ResArticle articleDto = (ResArticle) articleService.readArticle(articleId, accountId);
 
         //then
-        Assert.assertEquals("첫 게시글 입니다!", title);
+        Assert.assertEquals(articleRepository.findById(articleId).get().getTitle(), articleDto.getTitle());
+        Assert.assertEquals(articleRepository.findById(articleId).get().getContent(), articleDto.getContent());
+        Assert.assertEquals(articleRepository.findById(articleId).get().getCreatedDate(), articleDto.getCreatedDate());
     }
 
     @Test
-    public void 게시글_전체_조회() {
+    @DisplayName("게시글 전체 조회")
+    void readArticles() {
         //when
         List<ResArticle> articleDtoList = articleService.readArticles(null);
 
         //then
-        Assert.assertEquals(2, articleDtoList.size());
+        Assert.assertEquals(articleRepository.findAll().size(), articleDtoList.size());
     }
 
     @Test
-    public void 게시글_수정() {
+    @DisplayName("게시글 수정")
+    void updateArticle() {
         //given
-        long articleId = 1l;
-        ArticleForm articleForm = new ArticleForm();
-        articleForm.setTitle("첫번째로 글 씁니다!");
-        articleForm.setContent("하하하하하하");
+        long articleId = 1L;
+        String title = "첫번째로 글 씁니다!";
+        String content = "하하하하하하";
         String accountId = "Realtor 1";
+
+        ArticleForm articleForm = new ArticleForm();
+        articleForm.setTitle(title);
+        articleForm.setContent(content);
 
         //when
         articleService.updateArticle(articleId, articleForm, accountId);
-        Article article = articleRepository.findById(articleId).get();
-        String title = article.getTitle();
+        Optional<Article> article = articleRepository.findById(articleId);
 
         //then
-        Assert.assertEquals("첫번째로 글 씁니다!", title);
+        Assert.assertEquals(title, article.get().getTitle());
     }
 
     @Test
-    public void 게시글_삭제() {
+    @DisplayName("게시글 삭제")
+    void deleteArticle() {
         //given
-        long articleId = 1l;
+        long articleId = 1L;
         String accountId = "Realtor 1";
 
         //when
@@ -117,13 +131,15 @@ class ArticleServiceTest {
 
         //then
         Optional<Article> article = articleRepository.findById(articleId);
-        Assert.assertEquals(Optional.empty(), article);
+        Assert.assertNotNull(article);
+        article.ifPresent(value -> Assert.assertNotNull(value.getDeletedDate()));
     }
 
     @Test
-    public void 작성자_외_삭제불가(){
+    @DisplayName("작성자 외 삭제 불가")
+    void unableToDelete(){
         //given
-        long articleId = 1l;
+        long articleId = 1L;
         String accountId = "Realtor 2";
 
         //then
@@ -134,15 +150,17 @@ class ArticleServiceTest {
     }
 
     @Test
-    public void 작성자_외_수정불가(){
+    @DisplayName("작성자 외 수정 불가")
+    void unableToUpdate(){
         //given
-        long articleId = 1l;
+        long articleId = 1L;
         ArticleForm articleForm = new ArticleForm();
         articleForm.setTitle("첫번째로 글 씁니다!");
         articleForm.setContent("작성자는 제가 아니지만... 바꿔볼게요");
         String accountId = "Realtor 2";
 
         //then
+        Assert.assertNotEquals(accountId, articleRepository.findById(articleId).get().getMember().getAccountId());
         Assert.assertThrows(CustomException.class,
             () ->
                 //when
