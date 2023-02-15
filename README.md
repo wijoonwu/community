@@ -4,11 +4,6 @@
 
 - Java `1.8`
 - Spring-boot `2.7.8`
-- H2 database `2.1.214`
-
-### 💡 H2 Database를 사용한 이유
-
-> H2는 메모리 Database로, 가장 적은 용량을 차지하며 편리하게 데이터 저장이나 조작을 테스트 해볼 수 있어 사용 했습니다.
 
 ## 프로젝트 설치
 
@@ -27,15 +22,6 @@ git clone https://github.com/wijoonwu/community.git
 cd community
 gradlew bootRun
 ```
-
-## H2 Database 설치
-
-### MacOS or Windows
-
-- https://atoz-develop.tistory.com/entry/H2-Database-%EC%84%A4%EC%B9%98-%EC%84%9C%EB%B2%84-%EC%8B%A4%ED%96%89-%EC%A0%91%EC%86%8D-%EB%B0%A9%EB%B2%95
-
-> database의 이름은 반드시 `community`로 설정합니다.
-> (ex. url: `jdbc:h2:tcp://localhost/~/community`)
 
 ## 실행 방법
 
