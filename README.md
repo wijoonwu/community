@@ -209,7 +209,7 @@ gradlew bootRun
 
 #### Header
 
-- Content-Type : application/json
+- Content-Type : `application/json`
 - Authentication : Realtor 1
 
 #### Response
