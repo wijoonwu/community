@@ -41,8 +41,6 @@ public class ArticleDto {
                 for(ThumbsUp thumbsUp : article.getThumbsUp()){
                     if (Objects.equals(thumbsUp.getMember().getAccountId(), accountId)) {
                         return true;
-                    } else {
-                        return false;
                     }
                 }
             }
