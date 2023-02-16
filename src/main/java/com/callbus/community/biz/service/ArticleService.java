@@ -11,6 +11,7 @@ import com.callbus.community.web.dto.ArticleDto.DeleteArticle;
 import com.callbus.community.web.dto.ArticleDto.ResArticle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -26,23 +27,28 @@ public class ArticleService {
 
     public ResArticle createArticle(ArticleForm articleForm, String accountId) {
         try {
-            Member member = memberRepository.findByAccountId(accountId);
-            articleForm.setMember(member);
-            Article article = articleForm.toEntity();
-            articleRepository.save(article);
-            return new ResArticle(article, accountId);
+            Optional<Member> member = memberRepository.findByAccountId(accountId);
+            if(member.isPresent()){
+                articleForm.setMember(member.get());
+                Article article = articleForm.toEntity();
+                articleRepository.save(article);
+                return new ResArticle(article, accountId);
+            }
         } catch (DataIntegrityViolationException e) {
             throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
         }
+        throw new CustomException(ErrorCode.THE_WRONG_APPROACH);
     }
 
     @Transactional(readOnly = true)
     public Object readArticle(long articleId, String accountId) {
-        Article article = articleRepository.findById(articleId).orElseThrow(
-        () -> new CustomException(ErrorCode.ARTICLE_NOT_FOUND));
-        if(article.getDeletedDate() == null) {
-            return new ResArticle(article, accountId);
-        } return new DeleteArticle(article);
+        Optional<Article> article = articleRepository.findById(articleId);
+        if(article.isPresent()){
+            if(article.get().getDeletedDate() == null) {
+                return new ResArticle(article.get(), accountId);
+            } return new DeleteArticle(article.get());
+        }
+        throw new CustomException(ErrorCode.ARTICLE_NOT_FOUND);
     }
 
     @Transactional(readOnly = true)
@@ -56,30 +62,33 @@ public class ArticleService {
     }
 
     public ResArticle updateArticle(long articleId, ArticleForm articleForm, String accountId) {
-        Article article = articleRepository.findById(articleId).orElseThrow(
-            () -> new CustomException(ErrorCode.ARTICLE_NOT_FOUND));
-        Member member = memberRepository.findByAccountId(accountId);
-
-        if(article.getMember() != member){
-           throw new CustomException(ErrorCode.THE_WRONG_APPROACH);
+        Optional<Article> article = articleRepository.findById(articleId);
+        if(article.isPresent()){
+            checkWriter(accountId, article.get());
+            article.get().setTitle(articleForm.getTitle());
+            article.get().setContent(articleForm.getContent());
+            return new ResArticle(article.get(), accountId);
         }
-
-        article.setTitle(articleForm.getTitle());
-        article.setContent(articleForm.getContent());
-        return new ResArticle(article, accountId);
+        throw new CustomException(ErrorCode.ARTICLE_NOT_FOUND);
     }
 
     public String deleteArticle(long articleId, String accountId) {
-        Article article = articleRepository.findById(articleId).orElseThrow(
-            () -> new CustomException(ErrorCode.ARTICLE_NOT_FOUND));
-        Member member = memberRepository.findByAccountId(accountId);
-
-        if(article.getMember() != member){
-            throw new CustomException(ErrorCode.THE_WRONG_APPROACH);
+        Optional<Article> article = articleRepository.findById(articleId);
+        if(article.isPresent()){
+            checkWriter(accountId, article.get());
+            articleRepository.delete(article.get());
+            return "게시글을 삭제 했습니다";
         }
+        throw new CustomException(ErrorCode.ARTICLE_NOT_FOUND);
+    }
 
-        articleRepository.delete(article);
-        return "게시글을 삭제 했습니다";
+    private void checkWriter(String accountId, Article article) {
+        Optional<Member> member = memberRepository.findByAccountId(accountId);
+        if(member.isPresent()){
+            if(article.getMember() != member.get()){
+                throw new CustomException(ErrorCode.THE_WRONG_APPROACH);
+            }
+        } else throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
     }
 
 }
