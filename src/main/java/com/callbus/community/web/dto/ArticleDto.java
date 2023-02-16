@@ -8,12 +8,14 @@ import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 public class ArticleDto {
 
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    @ToString
     public static class ResArticle{
         private long id;
         private String writer;
@@ -37,7 +39,7 @@ public class ArticleDto {
         }
 
         public boolean setThumbsUpStatus(Article article, String accountId) {
-            if(article.getThumbsUp() != null){
+            if(article.getThumbsUp() != null && article.getThumbsUps() > 0){
                 for(ThumbsUp thumbsUp : article.getThumbsUp()){
                     if (Objects.equals(thumbsUp.getMember().getAccountId(), accountId)) {
                         return true;
