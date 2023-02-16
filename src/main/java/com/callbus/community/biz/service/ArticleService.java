@@ -9,6 +9,7 @@ import com.callbus.community.biz.repository.MemberRepository;
 import com.callbus.community.web.dto.ArticleDto.ArticleForm;
 import com.callbus.community.web.dto.ArticleDto.DeleteArticle;
 import com.callbus.community.web.dto.ArticleDto.ResArticle;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -67,6 +68,7 @@ public class ArticleService {
             checkWriter(accountId, article.get());
             article.get().setTitle(articleForm.getTitle());
             article.get().setContent(articleForm.getContent());
+            article.get().setModifiedDate();
             return new ResArticle(article.get(), accountId);
         }
         throw new CustomException(ErrorCode.ARTICLE_NOT_FOUND);
