@@ -3,12 +3,11 @@ package com.callbus.community.web.dto;
 import com.callbus.community.biz.domain.Article;
 import com.callbus.community.biz.domain.Member;
 import com.callbus.community.biz.domain.ThumbsUp;
-import java.time.LocalDateTime;
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 public class ArticleDto {
 
@@ -59,7 +58,10 @@ public class ArticleDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ArticleForm{
+        @NotBlank(message = "제목을 반드시 입력해주세요.")
         private String title;
+
+        @NotBlank(message = "내용을 반드시 입력해주세요.")
         private String content;
         private Member member;
 
