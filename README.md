@@ -237,7 +237,7 @@ gradlew bootRun
         "thumbsUpCount": 1,
         "thumbsUpStatus": true,
         "createdDate": "2023-02-15 03:53",
-        "modifiedDate": "2023-02-15 03:54"
+        "modifiedDate": "2023-02-15 03:53"
     },
     {
         "id": 2,
@@ -247,7 +247,7 @@ gradlew bootRun
         "thumbsUpCount": 1,
         "thumbsUpStatus": true,
         "createdDate": "2023-02-15 03:53",
-        "modifiedDate": "2023-02-15 03:54"
+        "modifiedDate": "2023-02-15 03:53"
     }
 ]
 ```
