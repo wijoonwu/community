@@ -22,7 +22,7 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@SQLDelete(sql = "UPDATE article set deleted_date = FORMATDATETIME(now(),'yyyy-MM-dd hh:mm') where id = ?")
+@SQLDelete(sql = "UPDATE article set deleted_date = FORMATDATETIME(now(),'yyyy-MM-dd HH:mm') where id = ?")
 public class Article extends BaseTime{
 
     @Id
@@ -52,16 +52,16 @@ public class Article extends BaseTime{
         this.content = content;
     }
 
-    public void setThumbsUps(int i){
-        this.thumbsUps = i;
-    }
-
     public void setTitle(String title) {
         this.title = title;
     }
 
     public void setContent(String content){
         this.content = content;
+    }
+
+    public void setThumbsUps(int i){
+        this.thumbsUps = i;
     }
 
     public void setThumbsUp(ThumbsUp thumbsUp) {
