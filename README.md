@@ -183,8 +183,7 @@ gradlew bootRun
 ```bash
 {
     "status": "OK",
-    "message": "좋아요를 눌렀습니다.",
-    "data": null
+    "message": "좋아요를 눌렀습니다."
 }
 ```
 
@@ -197,8 +196,7 @@ gradlew bootRun
 ```bash
 {
     "status": "OK",
-    "message": "좋아요가 취소되었습니다.",
-    "data": null
+    "message": "좋아요가 취소되었습니다."
 }
 ```
 
@@ -318,8 +316,7 @@ gradlew bootRun
 ```bash
 {
     "status": "OK",
-    "message": "게시글을 삭제 했습니다",
-    "data": null
+    "message": "게시글을 삭제 했습니다"
 }
 ```
 
