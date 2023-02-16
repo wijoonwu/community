@@ -84,17 +84,18 @@ class ThumbsUpServiceTest {
     @DisplayName("좋아요한 게시글 조회")
     void readThumbsUps() {
         //given
-        long articleId = 1L;
         String accountId = "Realtor 1";
         Optional<Member> member = memberRepository.findByAccountId(accountId);
-        thumbsUpService.createThumbsUp(articleId, accountId);
+        thumbsUpService.createThumbsUp(1L, accountId);
+        thumbsUpService.createThumbsUp(2L, accountId);
 
         //when
         List<ResArticle> articleDtoList = thumbsUpService.readThumbsUpList(accountId);
 
         //then
-        member.ifPresent(
-            value -> Assert.assertEquals(thumbsUpRepository.findAllByMember(value).size(),
-                articleDtoList.size()));
+        Assert.assertEquals(articleDtoList.size(), thumbsUpRepository.findAllByMember(member.get()).size());
+        for(ResArticle article : articleDtoList){
+            Assert.assertTrue(article.getThumbsUpStatus());
+        }
     }
 }
