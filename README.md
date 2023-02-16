@@ -35,7 +35,7 @@ gradlew bootRun
 #### Header
 
 - Content-Type : `application/json`
-- Authentication : Realtor 1
+- Authentication : `Lessor 1` 혹은 `Realtor 1`
 
 #### Body
 
@@ -99,7 +99,7 @@ gradlew bootRun
 #### Header
 
 - Content-Type : `application/json`
-- Authentication : Realtor 1
+- Authentication : `Lessor 1` 혹은 `Realtor 1` 혹은 `미입력`
 
 #### Response
 
@@ -124,7 +124,7 @@ gradlew bootRun
 #### Header
 
 - Content-Type : `application/json`
-- Authentication : Realtor 1
+- Authentication : `Lessor 1` 혹은 `Realtor 1` 혹은 `미입력`
 
 #### Response
 
@@ -176,7 +176,7 @@ gradlew bootRun
 #### Header
 
 - Content-Type : `application/json`
-- Authentication : Realtor 1
+- Authentication : `Lessor 1` 혹은 `Realtor 1`
 
 #### Response
 
@@ -223,7 +223,7 @@ gradlew bootRun
 #### Header
 
 - Content-Type : `application/json`
-- Authentication : Realtor 1
+- Authentication : `Lessor 1` 혹은 `Realtor 1`
 
 #### Response
 
@@ -260,7 +260,7 @@ gradlew bootRun
 #### Header
 
 - Content-Type : `application/json`
-- Authentication : Realtor 1
+- Authentication : `Lessor 1` 혹은 `Realtor 1`
 
 #### Body
 
@@ -311,7 +311,7 @@ gradlew bootRun
 #### Header
 
 - Content-Type : `application/json`
-- Authentication : Realtor 1
+- Authentication : `Lessor 1` 혹은 `Realtor 1`
 
 #### Response
 
