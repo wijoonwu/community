@@ -30,7 +30,7 @@ gradlew bootRun
 ### 게시글 작성
 
 - Method: `POST`
-- Url: http://localhost:8080/article/new
+- Url: http://localhost:8080/articles
 
 #### Header
 
@@ -94,7 +94,7 @@ gradlew bootRun
 ### 게시글 단건 조회
 
 - Method: `GET`
-- Url: http://localhost:8080/article/{id}
+- Url: http://localhost:8080/articles/{id}
 
 #### Header
 
@@ -119,7 +119,7 @@ gradlew bootRun
 ### 게시글 전체 조회
 
 - Method: `GET`
-- Url: http://localhost:8080/article/list
+- Url: http://localhost:8080/articles
 
 #### Header
 
@@ -171,7 +171,7 @@ gradlew bootRun
 ### 게시글 좋아요
 
 - Method: `POST`
-- Url: http://localhost:8080/article/{id}/thumbsUp
+- Url: http://localhost:8080/articles/{id}/thumbsUp
 
 #### Header
 
@@ -218,7 +218,7 @@ gradlew bootRun
 ### 게시글 좋아요 조회
 
 - Method: `GET`
-- Url: http://localhost:8080/article/thumbsUps
+- Url: http://localhost:8080/articles/thumbsUps
 
 #### Header
 
@@ -255,7 +255,7 @@ gradlew bootRun
 ### 게시글 수정
 
 - Method: `PUT`
-- Url: http://localhost:8080/article/{id}
+- Url: http://localhost:8080/articles/{id}
 
 #### Header
 
@@ -306,7 +306,7 @@ gradlew bootRun
 ### 게시글 삭제
 
 - Method: `DELETE`
-- Url: http://localhost:8080/article/{id}
+- Url: http://localhost:8080/articles/{id}
 
 #### Header
 
