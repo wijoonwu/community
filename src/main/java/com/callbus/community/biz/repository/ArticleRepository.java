@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface ArticleRepository extends JpaRepository<Article,Long> {
 
-    Article findByThumbsUp(ThumbsUp thumbsUp);
+    Optional<Article> findByThumbsUp(ThumbsUp thumbsUp);
 
     Optional<Article> findById(long id);
 
