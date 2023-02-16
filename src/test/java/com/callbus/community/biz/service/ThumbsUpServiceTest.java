@@ -40,12 +40,15 @@ class ThumbsUpServiceTest {
     void createThumbsUp() {
         //given
         long articleId = 1L;
-        String thumbsUpAccountId = "Realtor 1";
+        String realtorAccountId = "Realtor 1";
+        String lessorAccountId = "Lessor 1";
+
 
         //when
-        String message = thumbsUpService.createThumbsUp(articleId, thumbsUpAccountId);
+        String message = thumbsUpService.createThumbsUp(articleId, realtorAccountId);
+        thumbsUpService.createThumbsUp(articleId, lessorAccountId);
 
-        ResArticle thumbsUpArticleDto = (ResArticle) articleService.readArticle(articleId, thumbsUpAccountId);
+        ResArticle thumbsUpArticleDto = (ResArticle) articleService.readArticle(articleId, realtorAccountId);
         ResArticle defaultArticleDto = (ResArticle) articleService.readArticle(articleId, null);
 
         boolean thumbsUpStatus = thumbsUpArticleDto.getThumbsUpStatus();
@@ -55,6 +58,7 @@ class ThumbsUpServiceTest {
         Assert.assertEquals("좋아요를 눌렀습니다.", message);
         Assert.assertTrue(thumbsUpStatus);
         Assert.assertFalse(defaultStatus);
+        Assert.assertEquals(2, defaultArticleDto.getThumbsUpCount());
     }
 
     @Test
@@ -67,10 +71,13 @@ class ThumbsUpServiceTest {
         //when
         String message1 = thumbsUpService.createThumbsUp(articleId, accountId);
         String message2 = thumbsUpService.createThumbsUp(articleId, accountId);
+        ResArticle article = (ResArticle) articleService.readArticle(articleId, accountId);
 
         //then
         Assert.assertEquals("좋아요를 눌렀습니다.", message1);
         Assert.assertEquals("좋아요가 취소되었습니다.", message2);
+        Assert.assertEquals(0, article.getThumbsUpCount());
+        Assert.assertEquals(false, article.getThumbsUpStatus());
     }
 
     @Test
