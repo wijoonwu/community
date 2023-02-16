@@ -11,6 +11,7 @@ import com.callbus.community.biz.repository.ThumbsUpRepository;
 import com.callbus.community.web.dto.ArticleDto.ResArticle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,44 +28,44 @@ public class ThumbsUpService {
 
     public String createThumbsUp(long id, String accountId) {
         Article article = articleRepository.findById(id).orElseThrow(
-            () -> new CustomException(ErrorCode.ARTICLE_NOT_FOUND)
-        );
-        Member member = memberRepository.findByAccountId(accountId);
+            () -> new CustomException(ErrorCode.ARTICLE_NOT_FOUND));
+        Optional<Member> member = memberRepository.findByAccountId(accountId);
         if (ObjectUtils.isEmpty(member)) {
             throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
         }
-        ThumbsUp target = thumbsUpRepository.findByArticleAndMember(article, member);
-
-        if (ObjectUtils.isEmpty(target)) {
-            ThumbsUp thumbsUp = new ThumbsUp(member, article);
+        if(member.isPresent()){
+            Optional<ThumbsUp> target = thumbsUpRepository.findByArticleAndMember(article, member.get());
+            if(target.isPresent()){
+                target.get().ThumbsDown();
+                thumbsUpRepository.delete(target.get());
+                return "좋아요가 취소되었습니다.";
+            }
+            ThumbsUp thumbsUp = new ThumbsUp(member.get(), article);
             thumbsUpRepository.save(thumbsUp);
             article.setThumbsUp(thumbsUp);
-            return "좋아요를 눌렀습니다.";
-        } else {
-            target.ThumbsDown();
-            thumbsUpRepository.delete(target);
-            return "좋아요가 취소되었습니다.";
         }
+        return "좋아요를 눌렀습니다.";
     }
 
     @Transactional(readOnly = true)
     public List<ResArticle> readThumbsUpList(String accountId) {
-        Member member = memberRepository.findByAccountId(accountId);
-        List<ThumbsUp> thumbsUps = thumbsUpRepository.findAllByMember(member);
+        Optional<Member> member = memberRepository.findByAccountId(accountId);
         List<ResArticle> articleDtoList = new ArrayList<>();
-
-        try{
-            for (ThumbsUp thumbsUp : thumbsUps) {
-                Article article = articleRepository.findByThumbsUp(thumbsUp);
-                if(!ObjectUtils.isEmpty(article)){
-                    if(article.getDeletedDate() == null){
-                        ResArticle resArticle = new ResArticle(article, accountId);
-                        articleDtoList.add(resArticle);
+        if(member.isPresent()) {
+            List<ThumbsUp> thumbsUps = thumbsUpRepository.findAllByMember(member.get());
+            try {
+                for (ThumbsUp thumbsUp : thumbsUps) {
+                    Optional<Article> article = articleRepository.findByThumbsUp(thumbsUp);
+                    if (article.isPresent()) {
+                        if (article.get().getDeletedDate() == null) {
+                            ResArticle resArticle = new ResArticle(article.get(), accountId);
+                            articleDtoList.add(resArticle);
+                        }
                     }
                 }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
             }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
         }
         return articleDtoList;
     }
