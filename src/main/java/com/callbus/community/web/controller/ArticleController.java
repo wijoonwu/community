@@ -1,7 +1,8 @@
 package com.callbus.community.web.controller;
 
 import com.callbus.community.biz.domain.properties.ErrorCode;
-import com.callbus.community.biz.domain.properties.Message;
+import com.callbus.community.biz.domain.properties.Message.DataMessage;
+import com.callbus.community.biz.domain.properties.Message.StatusMessage;
 import com.callbus.community.biz.domain.properties.StatusEnum;
 import com.callbus.community.biz.exception.CustomException;
 import com.callbus.community.biz.service.ArticleService;
@@ -36,15 +37,15 @@ public class ArticleController {
     private final ThumbsUpService thumbsUpService;
 
     @PostMapping
-    public ResponseEntity<Message> createArticle(@RequestBody @Valid ArticleForm articleForm, Errors errors,
+    public ResponseEntity<DataMessage> createArticle(@RequestBody @Valid ArticleForm articleForm, Errors errors,
         @RequestHeader(required = false, value = "Authentication") String accountId) {
         checkEmpty(errors);
         ResArticle articleDto = articleService.createArticle(articleForm, accountId);
         HttpHeaders headers = getHttpHeaders();
-        Message message = getMessage();
-        message.setMessage("게시글 등록에 성공했습니다.");
-        message.setData(articleDto);
-        return new ResponseEntity<>(message, headers, HttpStatus.CREATED);
+        DataMessage dataMessage = getDataMessage();
+        dataMessage.setMessage("게시글 등록에 성공했습니다.");
+        dataMessage.setData(articleDto);
+        return new ResponseEntity<>(dataMessage, headers, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -62,34 +63,34 @@ public class ArticleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Message> updateArticle(@PathVariable("id") long articleId,
+    public ResponseEntity<DataMessage> updateArticle(@PathVariable("id") long articleId,
         @RequestBody @Valid ArticleForm articleForm, Errors errors,
         @RequestHeader(required = false, value = "Authentication") String accountId){
         checkEmpty(errors);
         ResArticle articleDto = articleService.updateArticle(articleId, articleForm, accountId);
-        Message message = getMessage();
+        DataMessage dataMessage = getDataMessage();
         HttpHeaders headers = getHttpHeaders();
-        message.setMessage("게시글을 수정 했습니다.");
-        message.setData(articleDto);
-        return new ResponseEntity<>(message, headers, HttpStatus.OK);
+        dataMessage.setMessage("게시글을 수정 했습니다.");
+        dataMessage.setData(articleDto);
+        return new ResponseEntity<>(dataMessage, headers, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Message> deleteArticle(@PathVariable("id") long articleId,
+    public ResponseEntity<StatusMessage> deleteArticle(@PathVariable("id") long articleId,
         @RequestHeader(required = false, value = "Authentication") String accountId){
-        Message message = getMessage();
+        StatusMessage statusMessage = getStatusMessage();
         HttpHeaders headers = getHttpHeaders();
-        message.setMessage(articleService.deleteArticle(articleId, accountId));
-        return new ResponseEntity<>(message, headers, HttpStatus.OK);
+        statusMessage.setMessage(articleService.deleteArticle(articleId, accountId));
+        return new ResponseEntity<>(statusMessage, headers, HttpStatus.OK);
     }
 
     @PostMapping("/{id}/thumbs-up")
-    public ResponseEntity<Message> createThumbsUp(@PathVariable("id") long id,
+    public ResponseEntity<StatusMessage> createThumbsUp(@PathVariable("id") long id,
         @RequestHeader(required = false, value = "Authentication") String accountId) {
-        Message message = getMessage();
+        StatusMessage statusMessage = getStatusMessage();
         HttpHeaders headers = getHttpHeaders();
-        message.setMessage(thumbsUpService.createThumbsUp(id, accountId));
-        return new ResponseEntity<>(message, headers, HttpStatus.OK);
+        statusMessage.setMessage(thumbsUpService.createThumbsUp(id, accountId));
+        return new ResponseEntity<>(statusMessage, headers, HttpStatus.OK);
     }
 
     @GetMapping("/thumbs-ups")
@@ -99,10 +100,16 @@ public class ArticleController {
         return new ResponseEntity<>(articleDtoList, HttpStatus.OK);
     }
 
-    private Message getMessage() {
-        Message message = new Message();
-        message.setStatus(StatusEnum.OK);
-        return message;
+    private DataMessage getDataMessage() {
+        DataMessage dataMessage = new DataMessage();
+        dataMessage.setStatus(StatusEnum.OK);
+        return dataMessage;
+    }
+
+    private StatusMessage getStatusMessage() {
+        StatusMessage statusMessage = new StatusMessage();
+        statusMessage.setStatus(StatusEnum.OK);
+        return statusMessage;
     }
 
     private HttpHeaders getHttpHeaders() {
@@ -110,6 +117,7 @@ public class ArticleController {
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
         return headers;
     }
+
     private void checkEmpty(Errors errors) {
         if(errors.hasErrors()){
             throw new CustomException(ErrorCode.CANNOT_BE_EMPTY);
