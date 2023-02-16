@@ -83,7 +83,7 @@ public class ArticleController {
         return new ResponseEntity<>(message, headers, HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/thumbsUp")
+    @PostMapping("/{id}/thumbs-up")
     public ResponseEntity<Message> createThumbsUp(@PathVariable("id") long id,
         @RequestHeader(required = false, value = "Authentication") String accountId) {
         Message message = getMessage();
@@ -92,7 +92,7 @@ public class ArticleController {
         return new ResponseEntity<>(message, headers, HttpStatus.OK);
     }
 
-    @GetMapping("/thumbsUps")
+    @GetMapping("/thumbs-ups")
     public ResponseEntity<List<ResArticle>> readThumbsUps(
         @RequestHeader(required = false, value = "Authentication") String accountId){
         List<ResArticle> articleDtoList = thumbsUpService.readThumbsUpList(accountId);
