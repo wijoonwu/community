@@ -27,9 +27,6 @@ class ThumbsUpServiceTest {
     MemberRepository memberRepository;
 
     @Autowired
-    ArticleRepository articleRepository;
-
-    @Autowired
     ArticleService articleService;
 
     @Autowired
