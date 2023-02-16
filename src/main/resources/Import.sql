@@ -2,3 +2,4 @@ insert into MEMBER (account_id , account_type, nickname, quit) values ('Realtor 
 insert into MEMBER (account_id , account_type, nickname, quit) values ('Lessor 1' ,'Lessor', '임웅', 0);
 insert into ARTICLE (member_id, title, content, thumbs_ups, created_date, modified_date) values (1, '첫 게시글 입니다!', '만나서 반갑습니다', 0, FORMATDATETIME(now(),'yyyy-MM-dd HH:mm'), FORMATDATETIME(now(),'yyyy-MM-dd HH:mm'));
 insert into ARTICLE (member_id, title, content, thumbs_ups, created_date, modified_date) values (1, '두번째 게시글 입니다!', '잘 부탁드립니다.', 0, FORMATDATETIME(now(),'yyyy-MM-dd HH:mm'), FORMATDATETIME(now(),'yyyy-MM-dd HH:mm'));
+insert into ARTICLE (member_id, title, content, thumbs_ups, created_date, modified_date) values (2, '처음 인사드립니다!', '반갑습니다', 0, FORMATDATETIME(now(),'yyyy-MM-dd HH:mm'), FORMATDATETIME(now(),'yyyy-MM-dd HH:mm'));
