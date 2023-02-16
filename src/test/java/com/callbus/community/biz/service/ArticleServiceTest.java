@@ -3,7 +3,6 @@ package com.callbus.community.biz.service;
 import com.callbus.community.biz.domain.Article;
 import com.callbus.community.biz.exception.CustomException;
 import com.callbus.community.biz.repository.ArticleRepository;
-import com.callbus.community.biz.repository.MemberRepository;
 import com.callbus.community.web.dto.ArticleDto.ArticleForm;
 import com.callbus.community.web.dto.ArticleDto.ResArticle;
 import java.util.List;

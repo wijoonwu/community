@@ -3,7 +3,6 @@ package com.callbus.community.biz.service;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.callbus.community.biz.domain.Member;
-import com.callbus.community.biz.repository.ArticleRepository;
 import com.callbus.community.biz.repository.MemberRepository;
 import com.callbus.community.biz.repository.ThumbsUpRepository;
 import com.callbus.community.web.dto.ArticleDto.ResArticle;
