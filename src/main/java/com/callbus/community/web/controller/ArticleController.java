@@ -28,14 +28,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/articles")
 @RequiredArgsConstructor
 public class ArticleController {
 
     private final ArticleService articleService;
     private final ThumbsUpService thumbsUpService;
 
-    @PostMapping("/new")
+    @PostMapping
     public ResponseEntity<Message> createArticle(@RequestBody @Valid ArticleForm articleForm, Errors errors,
         @RequestHeader(required = false, value = "Authentication") String accountId) {
         checkEmpty(errors);
@@ -54,7 +54,7 @@ public class ArticleController {
         return new ResponseEntity<>(articleDto, HttpStatus.OK);
     }
     
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<List<ResArticle>> readArticles(
         @RequestHeader(required = false, value = "Authentication") String accountId){
         List<ResArticle> articleDtoList = articleService.readArticles(accountId);
