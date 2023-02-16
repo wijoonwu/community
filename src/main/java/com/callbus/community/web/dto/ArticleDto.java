@@ -55,7 +55,6 @@ public class ArticleDto {
         }
     }
 
-    @Setter
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
@@ -63,6 +62,15 @@ public class ArticleDto {
         private String title;
         private String content;
         private Member member;
+
+        public ArticleForm(String title, String content) {
+            this.title = title;
+            this.content = content;
+        }
+
+        public void setMember(Member member) {
+            this.member = member;
+        }
 
         public Article toEntity() {
             return new Article(member, title, content);

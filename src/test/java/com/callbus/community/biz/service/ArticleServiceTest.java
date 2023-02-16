@@ -23,9 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 class ArticleServiceTest {
 
     @Autowired
-    MemberRepository memberRepository;
-
-    @Autowired
     ArticleService articleService;
 
     @Autowired
@@ -39,9 +36,7 @@ class ArticleServiceTest {
         String content = "반갑습니다";
         String accountId = "Realtor 1";
 
-        ArticleForm articleForm = new ArticleForm();
-        articleForm.setTitle(title);
-        articleForm.setContent(content);
+        ArticleForm articleForm = new ArticleForm(title, content);
 
         //when
         ResArticle articleDto = articleService.createArticle(articleForm, accountId);
@@ -60,9 +55,7 @@ class ArticleServiceTest {
         String title = "안녕하세요.";
         String content = "반갑습니다";
 
-        ArticleForm articleForm = new ArticleForm();
-        articleForm.setTitle(title);
-        articleForm.setContent(content);
+        ArticleForm articleForm = new ArticleForm(title, content);
 
         //then
         Assert.assertThrows(CustomException.class,
@@ -107,9 +100,7 @@ class ArticleServiceTest {
         String content = "하하하하하하";
         String accountId = "Realtor 1";
 
-        ArticleForm articleForm = new ArticleForm();
-        articleForm.setTitle(title);
-        articleForm.setContent(content);
+        ArticleForm articleForm = new ArticleForm(title, content);
 
         //when
         articleService.updateArticle(articleId, articleForm, accountId);
@@ -155,9 +146,9 @@ class ArticleServiceTest {
     void unableToUpdate(){
         //given
         long articleId = 1L;
-        ArticleForm articleForm = new ArticleForm();
-        articleForm.setTitle("첫번째로 글 씁니다!");
-        articleForm.setContent("작성자는 제가 아니지만... 바꿔볼게요");
+        String title = "첫번째로 글 씁니다!";
+        String content = "작성자는 제가 아니지만... 바꿔볼게요";
+        ArticleForm articleForm = new ArticleForm(title, content);
         String accountId = "Realtor 2";
 
         //then
