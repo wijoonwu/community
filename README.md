@@ -171,7 +171,7 @@ gradlew bootRun
 ### 게시글 좋아요
 
 - Method: `POST`
-- Url: http://localhost:8080/articles/{id}/thumbsUp
+- Url: http://localhost:8080/articles/{id}/thumbs-up
 
 #### Header
 
@@ -218,7 +218,7 @@ gradlew bootRun
 ### 게시글 좋아요 조회
 
 - Method: `GET`
-- Url: http://localhost:8080/articles/thumbsUps
+- Url: http://localhost:8080/articles/thumbs-ups
 
 #### Header
 
