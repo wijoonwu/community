@@ -13,9 +13,9 @@ import lombok.ToString;
 public class ArticleDto {
 
     @Getter
+    @ToString
     @NoArgsConstructor
     @AllArgsConstructor
-    @ToString
     public static class ResArticle{
         private long id;
         private String writer;
@@ -26,7 +26,6 @@ public class ArticleDto {
         private String createdDate;
         private String modifiedDate;
 
-
         public ResArticle(Article article, String accountId) {
             this.createdDate = article.getCreatedDate();
             this.modifiedDate = article.getModifiedDate();
@@ -35,10 +34,10 @@ public class ArticleDto {
             this.title = article.getTitle();
             this.content = article.getContent();
             this.thumbsUpCount = article.getThumbsUps();
-            this.thumbsUpStatus = setThumbsUpStatus(article,accountId);
+            this.thumbsUpStatus = checkThumbsUpStatus(article,accountId);
         }
 
-        public boolean setThumbsUpStatus(Article article, String accountId) {
+         boolean checkThumbsUpStatus(Article article, String accountId) {
             if(article.getThumbsUp() != null && article.getThumbsUps() > 0){
                 for(ThumbsUp thumbsUp : article.getThumbsUp()){
                     if (Objects.equals(thumbsUp.getMember().getAccountId(), accountId)) {
@@ -48,20 +47,15 @@ public class ArticleDto {
             }
             return false;
         }
-
-        public boolean getThumbsUpStatus() {
-            return thumbsUpStatus;
-        }
     }
 
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ArticleForm{
-        @NotBlank(message = "제목을 반드시 입력해주세요.")
+        @NotBlank
         private String title;
-
-        @NotBlank(message = "내용을 반드시 입력해주세요.")
+        @NotBlank
         private String content;
         private Member member;
 
@@ -83,13 +77,11 @@ public class ArticleDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class DeleteArticle{
-        private long id;
         private String message;
         private String deletedDate;
 
         public DeleteArticle(Article article){
-            this.id = article.getId();
-            this.message = "삭제된 게시글입니다.";
+            this.message = article.getId() + "번 게시글은 삭제되었습니다.";
             this.deletedDate = article.getDeletedDate();
         }
     }

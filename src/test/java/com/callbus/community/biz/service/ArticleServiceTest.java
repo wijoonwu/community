@@ -131,7 +131,7 @@ class ArticleServiceTest {
     void unableToDelete(){
         //given
         long articleId = 1L;
-        String accountId = "Realtor 2";
+        String accountId = "Lessor 1";
 
         //then
         Assert.assertThrows(CustomException.class,
@@ -148,7 +148,7 @@ class ArticleServiceTest {
         String title = "첫번째로 글 씁니다!";
         String content = "작성자는 제가 아니지만... 바꿔볼게요";
         ArticleForm articleForm = new ArticleForm(title, content);
-        String accountId = "Realtor 2";
+        String accountId = "Lessor 2";
 
         //then
         Assert.assertNotEquals(accountId, articleRepository.findById(articleId).get().getMember().getAccountId());

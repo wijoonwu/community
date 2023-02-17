@@ -118,6 +118,7 @@ public class ArticleController {
         return headers;
     }
 
+
     private void checkEmpty(Errors errors) {
         if(errors.hasErrors()){
             throw new CustomException(ErrorCode.CANNOT_BE_EMPTY);

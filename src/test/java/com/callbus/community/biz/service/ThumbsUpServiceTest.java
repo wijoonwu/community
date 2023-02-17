@@ -1,7 +1,5 @@
 package com.callbus.community.biz.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.callbus.community.biz.domain.Member;
 import com.callbus.community.biz.repository.MemberRepository;
 import com.callbus.community.biz.repository.ThumbsUpRepository;
@@ -43,7 +41,6 @@ class ThumbsUpServiceTest {
         String realtorAccountId = "Realtor 1";
         String lessorAccountId = "Lessor 1";
 
-
         //when
         String message = thumbsUpService.createThumbsUp(articleId, realtorAccountId);
         thumbsUpService.createThumbsUp(articleId, lessorAccountId);
@@ -51,8 +48,8 @@ class ThumbsUpServiceTest {
         ResArticle thumbsUpArticleDto = (ResArticle) articleService.readArticle(articleId, realtorAccountId);
         ResArticle defaultArticleDto = (ResArticle) articleService.readArticle(articleId, null);
 
-        boolean thumbsUpStatus = thumbsUpArticleDto.getThumbsUpStatus();
-        boolean defaultStatus = defaultArticleDto.getThumbsUpStatus();
+        boolean thumbsUpStatus = thumbsUpArticleDto.isThumbsUpStatus();
+        boolean defaultStatus = defaultArticleDto.isThumbsUpStatus();
 
         //then
         Assert.assertEquals("좋아요를 눌렀습니다.", message);
@@ -77,7 +74,7 @@ class ThumbsUpServiceTest {
         Assert.assertEquals("좋아요를 눌렀습니다.", message1);
         Assert.assertEquals("좋아요가 취소되었습니다.", message2);
         Assert.assertEquals(0, article.getThumbsUpCount());
-        Assert.assertEquals(false, article.getThumbsUpStatus());
+        Assert.assertEquals(false, article.isThumbsUpStatus());
     }
 
     @Test
@@ -95,7 +92,7 @@ class ThumbsUpServiceTest {
         //then
         Assert.assertEquals(articleDtoList.size(), thumbsUpRepository.findAllByMember(member.get()).size());
         for(ResArticle article : articleDtoList){
-            Assert.assertTrue(article.getThumbsUpStatus());
+            Assert.assertTrue(article.isThumbsUpStatus());
         }
     }
 }
